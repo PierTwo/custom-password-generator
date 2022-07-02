@@ -4,11 +4,11 @@ var generateBtn = document.querySelector("#generate");
 // Generates a password using the user criteria
 function generatePassword() {
   // Prompts user to enter a vlue for password length
-  passLength = prompt("Please enter a length for the password between 8 and 128.", "E.g. \"16\"");
+  passLength = prompt("Please enter a length for the password between 8 and 128.");
 
   // Loops the password length prompt until a proper value is selected
   while (passLength < 8 || passLength > 128 || isNaN(passLength)) {
-    passLength = prompt("ERROR: Please enter a value between 8 and 128.", "E.g. \"16\"");
+    passLength = prompt("ERROR: Please enter a value between 8 and 128.");
   };
 
   // Asks user to confirm if to include different character types
@@ -25,7 +25,7 @@ function generatePassword() {
     return charType == false;
   };
 
-  // Loops the character prompts until at least one character type is selected
+  // Loops the character type prompts until at least one character type is selected
   while (charType.every(checkType)) {
     alert("ERROR: At least one character type needed for password.");
 
@@ -39,6 +39,38 @@ function generatePassword() {
 
     charType = [passLower, passUpper, passNums, passSpecial];
   };
+
+  // Selects what characters are included in password based on user criteria
+  function passChars() {
+    Chars = "";
+
+    if (passLower) {
+      Chars = Chars + "abcdefghijklmnopqrstuvwxyz";
+    };
+
+    if (passUpper) {
+      Chars = Chars + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    };
+
+    if (passNums) {
+      Chars = Chars + "0987654321";
+    };
+
+    if (passSpecial) {
+      Chars += " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+    };
+
+    return Chars;
+  };
+
+  var passGenerated = "";
+
+  // Randomly selects characters to create a password based on length user chose
+  for (var i = 0; i < passLength; i++) {
+    passGenerated += passChars().charAt(Math.floor(Math.random() * passChars().length));
+  };
+
+  return passGenerated;
 };
 
 // Write password to the #password input
