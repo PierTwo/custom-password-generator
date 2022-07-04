@@ -1,79 +1,79 @@
-// Selects id of generate
+// Selects the Generate Password button by calling its id
 var generateBtn = document.querySelector("#generate");
 
 // Generates a password using the user criteria
 function generatePassword() {
-  // Prompts user to enter a vlue for password length
-  passLength = prompt("Please enter a length for the password between 8 and 128.");
+  // Prompts user to enter a value for password length
+  var passLength = prompt("Please enter a length for the password between 8 and 128.");
 
-  // Loops the password length prompt until a proper value is selected
+  // Loops the password length prompt if an improper value is entered
   while (passLength < 8 || passLength > 128 || isNaN(passLength)) {
     passLength = prompt("ERROR: Please enter a value between 8 and 128.");
   };
 
-  // Asks user to confirm if to include different character types
-  passLower = confirm("Do you want to include lowercase characters? \nOK for Yes or Cancel for No.");
-  passUpper = confirm("Do you want to include uppercase characters? \nOK for Yes or Cancel for No.");
-  passNums = confirm("Do you want to include numbers? \nOK for Yes or Cancel for No.");
-  passSpecial = confirm("Do you want to include special characters? \nOK for Yes or Cancel for No.");
+  // Asks the user which character types to include
+  var charsLower = confirm("Do you want to include lowercase characters? \nOK for Yes. Cancel for No.");
+  var charsUpper = confirm("Do you want to include uppercase characters? \nOK for Yes. Cancel for No.");
+  var charsNums = confirm("Do you want to include numbers? \nOK for Yes. Cancel for No.");
+  var charsSpecial = confirm("Do you want to include special characters? \nOK for Yes. Cancel for No.");
 
-  // Creates an array of all character type variables
-  charType = [passLower, passUpper, passNums, passSpecial];
+  // Creates an array of all character type variables to store their boolean values
+  var charTypes = [charsLower, charsUpper, charsNums, charsSpecial];
 
-  // checks if all of the variables in the array are false
-  function checkType(charType) {
-    return charType == false;
+  // Checks if all of the character type variables within the array are false
+  function checkTypes(charTypes) {
+    return charTypes === false;
   };
 
-  // Loops the character type prompts until at least one character type is selected
-  while (charType.every(checkType)) {
+  // Loops the character type confirm boxes if none are selected
+  while (charTypes.every(checkTypes)) {
     alert("ERROR: At least one character type needed for password.");
 
-    passLower = confirm("Do you want to include lowercase characters? \nOK for Yes or Cancel for No.");
+    charsLower = confirm("Do you want to include lowercase characters? \nOK for Yes. Cancel for No.");
+    charsUpper = confirm("Do you want to include uppercase characters? \nOK for Yes. Cancel for No.");
+    charsNums = confirm("Do you want to include numbers? \nOK for Yes. Cancel for No.");
+    charsSpecial = confirm("Do you want to include special characters? \nOK for Yes. Cancel for No.");
 
-    passUpper = confirm("Do you want to include uppercase characters? \nOK for Yes or Cancel for No.");
-
-    passNums = confirm("Do you want to include numbers? \nOK for Yes or Cancel for No.");
-
-    passSpecial = confirm("Do you want to include special characters? \nOK for Yes or Cancel for No.");
-
-    charType = [passLower, passUpper, passNums, passSpecial];
+    charTypes = [charsLower, charsUpper, charsNums, charsSpecial];
   };
 
-  // Selects what characters are included in password based on user criteria
+  // Selects what character types are included in the password based on user criteria
   function passChars() {
-    Chars = "";
+    var charsUsed = "";
 
-    if (passLower) {
-      Chars = Chars + "abcdefghijklmnopqrstuvwxyz";
+    if (charsLower) {
+      charsUsed += "abcdefghijklmnopqrstuvwxyz";
     };
 
-    if (passUpper) {
-      Chars = Chars + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if (charsUpper) {
+      charsUsed += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     };
 
-    if (passNums) {
-      Chars = Chars + "0987654321";
+    if (charsNums) {
+      charsUsed += "0987654321";
     };
 
-    if (passSpecial) {
-      Chars += " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+    if (charsSpecial) {
+      charsUsed += " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     };
 
-    return Chars;
+    // Returns which character types are to be used when generating
+    return charsUsed;
   };
 
+  // Creates the variable to set the generated password to
   var passGenerated = "";
 
-  // Randomly selects characters to create a password based on length user chose
+  // Randomly selects characters from types chosen to create a password based on the length entered by user
   for (var i = 0; i < passLength; i++) {
     passGenerated += passChars().charAt(Math.floor(Math.random() * passChars().length));
   };
 
+  // Returns the generated password
   return passGenerated;
 };
 
-// Write password to the #password input
+// Write password to the #password text area
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
